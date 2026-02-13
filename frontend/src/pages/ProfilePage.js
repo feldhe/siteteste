@@ -210,9 +210,10 @@ export default function ProfilePage() {
 
       {/* Edit Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="bg-card border-border max-w-md max-h-[85vh] overflow-y-auto" data-testid="edit-profile-dialog">
+        <DialogContent className="bg-card border-border max-w-md max-h-[85vh] overflow-y-auto" aria-describedby="edit-profile-desc" data-testid="edit-profile-dialog">
           <DialogHeader>
             <DialogTitle className="font-heading text-2xl font-bold uppercase tracking-wider">Editar Perfil</DialogTitle>
+            <p id="edit-profile-desc" className="text-xs text-muted-foreground">Atualize suas informacoes</p>
           </DialogHeader>
           <div className="space-y-4">
             <div>
