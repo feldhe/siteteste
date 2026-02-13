@@ -133,9 +133,10 @@ class ShadowScholarAPITester:
         print("TESTING ACTIVITIES CRUD")
         print("="*50)
         
-        # Create activity
+        # Create activity with unique title
+        timestamp = str(int(datetime.now().timestamp()))
         activity_data = {
-            "title": "Test Activity Matemática",
+            "title": f"Test Activity Mat {timestamp}",
             "subject": "Matemática", 
             "description": "Test activity for API testing",
             "difficulty": 3,
