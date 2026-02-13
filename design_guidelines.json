@@ -1,0 +1,124 @@
+{
+  "identity": {
+    "name": "Shadow Scholar",
+    "tone": "Tactical, Elite, Competitive, Minimalist",
+    "core_philosophy": "Gamify the grind. Study like an esports pro.",
+    "visual_style": "Noir-Esports, High Contrast, Bento Grids, Geometric Purity"
+  },
+  "typography": {
+    "font_import_url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;700&display=swap",
+    "families": {
+      "heading": "Barlow Condensed, sans-serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "usage": {
+      "h1": "text-5xl font-black tracking-tight uppercase font-heading",
+      "h2": "text-3xl font-bold tracking-tight uppercase font-heading",
+      "h3": "text-xl font-bold tracking-wide uppercase font-heading text-muted-foreground",
+      "body": "text-base font-normal tracking-normal font-body text-zinc-300",
+      "label": "text-xs font-bold tracking-[0.2em] uppercase font-mono text-zinc-500",
+      "stat_number": "text-4xl font-black tracking-tighter font-heading"
+    }
+  },
+  "colors": {
+    "palette": {
+      "background": "#09090b",
+      "foreground": "#fafafa",
+      "card": "#121212",
+      "card_foreground": "#fafafa",
+      "popover": "#09090b",
+      "popover_foreground": "#fafafa",
+      "primary": "#fafafa",
+      "primary_foreground": "#18181b",
+      "secondary": "#27272a",
+      "secondary_foreground": "#fafafa",
+      "muted": "#27272a",
+      "muted_foreground": "#a1a1aa",
+      "accent": "#27272a",
+      "accent_foreground": "#fafafa",
+      "destructive": "#ef4444",
+      "destructive_foreground": "#fafafa",
+      "border": "#27272a",
+      "input": "#27272a",
+      "ring": "#fafafa"
+    },
+    "chart_colors": {
+      "chart_1": "#fafafa",
+      "chart_2": "#a1a1aa",
+      "chart_3": "#52525b",
+      "chart_4": "#3f3f46",
+      "chart_5": "#27272a"
+    },
+    "rank_system": {
+      "bronze": "#cd7f32",
+      "silver": "#e0e0e0",
+      "gold": "#ffd700",
+      "platinum": "#e5e4e2",
+      "diamond": "#b9f2ff",
+      "ascendant": "#1fa186",
+      "immortal": "#ff4655",
+      "radiant": "#ffffaa"
+    }
+  },
+  "layout": {
+    "spacing": "Relaxed. Use p-6 or p-8 for cards. Gap-6 for grids.",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grid_strategy": "Bento Grid (Mode A). Mix col-span-1, col-span-2, row-span-2.",
+    "radius": "rounded-none"
+  },
+  "components": {
+    "buttons": {
+      "default": "bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider rounded-none h-12 px-8 transition-all hover:translate-y-[-2px]",
+      "outline": "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold uppercase tracking-wider rounded-none h-12 px-8",
+      "ghost": "hover:bg-accent hover:text-accent-foreground rounded-none"
+    },
+    "cards": {
+      "base": "bg-card border border-border rounded-none shadow-none hover:border-primary/50 transition-colors duration-300",
+      "gamer_profile": "relative overflow-hidden border border-border bg-card p-0 rounded-none group"
+    },
+    "inputs": {
+      "base": "bg-input/50 border-border rounded-none focus:ring-1 focus:ring-primary focus:border-primary transition-all font-mono text-sm"
+    }
+  },
+  "assets": {
+    "image_urls": {
+      "profile_banner_default": "https://images.unsplash.com/photo-1762258344624-52d8c3b74c66?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHwyfHxkYXJrJTIwYWJzdHJhY3QlMjBnZW9tZXRyaWMlMjBiYWNrZ3JvdW5kJTIwdGV4dHVyZXxlbnwwfHx8fDE3NzA5NDY4ODR8MA&ixlib=rb-4.1.0&q=85",
+      "avatar_placeholder": "https://github.com/shadcn.png",
+      "rank_badge_fallback": "https://images.unsplash.com/photo-1558688077-dcc0f0988f14?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwyfHxtaW5pbWFsaXN0JTIwYmxhY2slMjBhbmQlMjB3aGl0ZSUyMGFuaW1lJTIwYXZhdGFyfGVufDB8fHx8MTc3MDk0Njg4MXww&ixlib=rb-4.1.0&q=85"
+    },
+    "icons": {
+      "library": "lucide-react",
+      "rank_icons": "Use Geometric shapes with icons inside (e.g., Circle, Hexagon, Diamond) using pure CSS or SVG.",
+      "usage": "Stroke width 1.5px. Minimalist."
+    }
+  },
+  "motion": {
+    "type": "CSS/Tailwind Animate",
+    "classes": {
+      "fade_in": "animate-in fade-in duration-500",
+      "slide_up": "animate-in slide-in-from-bottom-4 duration-500 fade-in",
+      "hover_lift": "transition-transform duration-200 hover:-translate-y-1"
+    }
+  },
+  "universal_guidelines": [
+    "Dark Mode is MANDATORY. Do not support light mode toggle unless requested.",
+    "No gradients on backgrounds. Use flat colors or subtle noise textures.",
+    "Use 'Barlow Condensed' for all headings and stats. Use 'Inter' for body text.",
+    "All cards must have sharp corners (rounded-none) or very subtle rounding (rounded-sm) to fit the brutalist/gamer aesthetic.",
+    "Footer text MUST be: 'Autoral por Henrique Feldhaus – Desenvolvedor Junior'",
+    "Use a Bento Grid layout for the Dashboard.",
+    "Profile Card must look like a Gamer Card (Banner at top, Avatar overlapping, Stats below).",
+    "Shop items should be displayed as cards with Rarity borders (Common=Gray, Rare=Blue, Epic=Purple, Legendary=Gold).",
+    "All interactive elements must have data-testid attributes."
+  ],
+  "instructions_to_main_agent": [
+    "1. UPDATE `tailwind.config.js` to include the new fonts (Barlow Condensed, Inter, JetBrains Mono) and the specific color palette defined in `colors`.",
+    "2. UPDATE `src/index.css` to import the Google Fonts and set the CSS variables for the dark theme.",
+    "3. UPDATE `src/index.css` to force dark mode by default (add `dark` class to html/body or set variables in `:root` to dark values directly).",
+    "4. Install `lucide-react` if not installed.",
+    "5. When building the Profile, use the 'Gamer Card' layout: Banner image height 150px, Avatar absolute positioned -bottom-10 left-6.",
+    "6. For the Shop, create a 'RarityBadge' component that takes a rarity prop and applies the correct border color.",
+    "7. Ensure the Footer is always present at the bottom of the layout."
+  ]
+}
