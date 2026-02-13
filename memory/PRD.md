@@ -32,24 +32,28 @@ Plataforma web gamificada de produtividade estudantil com foco em competição, 
 - Perfil customizável estilo gamer card
 
 ## Implementado (Feb 2026)
-- [x] Google Auth (Emergent managed) com session management
-- [x] Onboarding completo (display_name único, cidade, escola, ano, matérias)
-- [x] Dashboard (Bento Grid: XP hoje, nível, streak, total XP, gráfico produtividade, missões, metas, atividades pendentes)
-- [x] Activities CRUD (criar, listar, completar, deletar com filtros)
-- [x] XP System (Level XP + Total XP independentes, cálculo com duração/dificuldade/streak/combo)
-- [x] Level System (até 100, ranks: Bronze/Prata/Ouro/Rubi/Platina)
-- [x] Streak System (contador, multipliers: 3d=+10%, 7d=+25%, 30d=+50%)
+- [x] Google Auth (Emergent managed) + session management
+- [x] Onboarding (nome único, cidade, escola, ano, matérias)
+- [x] Dashboard Bento Grid (XP, nível, streak, gráfico, missões, metas, pendentes)
+- [x] Activities CRUD + XP calculation (anti-fraud, streak multiplier, combo)
+- [x] XP System dual (Level XP + Total XP independentes)
+- [x] Level System (até 100: Bronze/Prata/Ouro/Rubi/Platina)
+- [x] Streak System (multipliers: 3d=+10%, 7d=+25%, 30d=+50%)
 - [x] Rankings (global diário, amigos, clãs, streak)
-- [x] Loja Interna (15 itens: molduras, cores, badges, banners por raridade)
-- [x] Friends (busca, solicitações, aceitar/recusar, rival)
-- [x] Clãs (criar custa 500 XP, entrar, sair, ranking)
-- [x] Badges (9 conquistas rastreadas automaticamente)
-- [x] Missões Diárias (3 missões auto-geradas)
-- [x] Metas Semanais (XP, minutos, atividades com barras de progresso)
-- [x] Anti-Fraude (validação de títulos, limites de tempo, detecção de spam)
-- [x] Perfil (gamer card com banner, avatar, bio, redes sociais, stats, badges)
-- [x] Matérias (gerenciar lista de matérias)
-- [x] Design escuro minimalista (Barlow Condensed + Inter + JetBrains Mono)
+- [x] Loja Interna (15 itens por raridade)
+- [x] Friends (busca, solicitações, rival)
+- [x] Clãs (criar, entrar, sair, ranking)
+- [x] Badges (9 conquistas automáticas)
+- [x] Missões Diárias + Metas Semanais
+- [x] Anti-Fraude (validação títulos, limites tempo, spam)
+- [x] Perfil gamer card (banner, avatar, bio, redes sociais)
+- [x] **DESIGN CYBERPUNK** - Preto + Vermelho Neon (#ff1a1a)
+- [x] **Glassmorphism** em todos os cards (backdrop-blur + red tint)
+- [x] **Mobile-First** com bottom nav (5 ícones)
+- [x] **Timer de Estudo** com glow pulsante cyberpunk
+- [x] **Microinterações CSS** (hover glow, XP fill animation, level up burst)
+- [x] **XP Bar** com gradiente vermelho animado
+- [x] Fontes: Orbitron (headings) + Rajdhani (stats) + Inter (body) + JetBrains Mono
 - [x] Footer: "Autoral por Henrique Feldhaus – Desenvolvedor Junior"
 
 ## Backlog Priorizado
