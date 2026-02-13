@@ -104,9 +104,10 @@ export default function ClanPage() {
                 <Plus className="h-4 w-4 mr-2" /> Criar Cla
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-card border-border max-w-md" data-testid="create-clan-dialog">
+            <DialogContent className="bg-card border-border max-w-md" aria-describedby="create-clan-desc" data-testid="create-clan-dialog">
               <DialogHeader>
                 <DialogTitle className="font-heading text-2xl font-bold uppercase tracking-wider">Criar Cla</DialogTitle>
+                <p id="create-clan-desc" className="text-xs text-muted-foreground">Crie seu cla e lidere uma equipe</p>
               </DialogHeader>
               <div className="space-y-4">
                 <p className="text-xs text-muted-foreground font-mono flex items-center gap-1">
