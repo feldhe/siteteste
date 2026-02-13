@@ -31,7 +31,7 @@ export default function ActivitiesPage() {
 
   // Create form
   const [title, setTitle] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState(undefined);
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("3");
   const [estimatedTime, setEstimatedTime] = useState("30");
@@ -63,7 +63,7 @@ export default function ActivitiesPage() {
       });
       toast.success("Atividade criada!");
       setCreateOpen(false);
-      setTitle(""); setDescription(""); setDifficulty("3"); setEstimatedTime("30");
+      setTitle(""); setSubject(undefined); setDescription(""); setDifficulty("3"); setEstimatedTime("30");
       fetchActivities();
     } catch (e) {
       toast.error(e.response?.data?.detail || "Erro ao criar atividade");
@@ -129,11 +129,12 @@ export default function ActivitiesPage() {
               <Plus className="h-4 w-4 mr-2" /> Nova
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-card border-border max-w-md" data-testid="create-activity-dialog">
+          <DialogContent className="bg-card border-border max-w-md" aria-describedby="create-activity-desc" data-testid="create-activity-dialog">
             <DialogHeader>
               <DialogTitle className="font-heading text-2xl font-bold uppercase tracking-wider">
                 Nova Atividade
               </DialogTitle>
+              <p id="create-activity-desc" className="text-xs text-muted-foreground">Preencha os campos para criar</p>
             </DialogHeader>
             <div className="space-y-4">
               <div>
@@ -143,9 +144,9 @@ export default function ActivitiesPage() {
               </div>
               <div>
                 <label className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em] mb-1 block">Materia</label>
-                <Select value={subject} onValueChange={setSubject}>
+                <Select value={subject || ""} onValueChange={(val) => setSubject(val)}>
                   <SelectTrigger className="bg-secondary/50 border-border h-10" data-testid="activity-subject-select">
-                    <SelectValue placeholder="Selecione" />
+                    <SelectValue placeholder="Selecione a materia" />
                   </SelectTrigger>
                   <SelectContent>
                     {subjects.map((s) => (
