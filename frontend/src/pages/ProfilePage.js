@@ -1,25 +1,21 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../lib/api";
-import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { Progress } from "../components/ui/progress";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
-import { Separator } from "../components/ui/separator";
-import { Edit, Flame, Trophy, Zap, Link as LinkIcon, Instagram, Youtube, Linkedin, ExternalLink, Award } from "lucide-react";
+import { Edit, Flame, Trophy, Zap, ExternalLink, Award, Instagram, Youtube, Linkedin } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
 const SOCIAL_PLATFORMS = [
-  { key: "instagram", label: "Instagram", icon: Instagram, placeholder: "https://instagram.com/..." },
-  { key: "x", label: "X (Twitter)", icon: ExternalLink, placeholder: "https://x.com/..." },
-  { key: "tiktok", label: "TikTok", icon: ExternalLink, placeholder: "https://tiktok.com/@..." },
-  { key: "youtube", label: "YouTube", icon: Youtube, placeholder: "https://youtube.com/..." },
-  { key: "linkedin", label: "LinkedIn", icon: Linkedin, placeholder: "https://linkedin.com/in/..." },
-  { key: "custom", label: "Link Personalizado", icon: LinkIcon, placeholder: "https://..." },
+  { key: "instagram", label: "Instagram", placeholder: "https://instagram.com/..." },
+  { key: "x", label: "X (Twitter)", placeholder: "https://x.com/..." },
+  { key: "tiktok", label: "TikTok", placeholder: "https://tiktok.com/@..." },
+  { key: "youtube", label: "YouTube", placeholder: "https://youtube.com/..." },
+  { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/..." },
+  { key: "custom", label: "Link Personalizado", placeholder: "https://..." },
 ];
 
 export default function ProfilePage() {
@@ -36,216 +32,158 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const [pRes, bRes] = await Promise.all([
-          api.get("/profile"),
-          api.get("/badges"),
-        ]);
-        setProfile(pRes.data);
-        setBadges(bRes.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
+        const [p, b] = await Promise.all([api.get("/profile"), api.get("/badges")]);
+        setProfile(p.data); setBadges(b.data);
+      } catch (e) { console.error(e); }
+      finally { setLoading(false); }
     };
     fetch();
   }, []);
 
   const openEdit = () => {
-    setEditBio(profile?.bio || "");
-    setEditCollegePlan(profile?.college_plan || "");
-    setEditSocials(profile?.social_links || {});
-    setEditOpen(true);
+    setEditBio(profile?.bio || ""); setEditCollegePlan(profile?.college_plan || "");
+    setEditSocials(profile?.social_links || {}); setEditOpen(true);
   };
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await api.put("/profile", {
-        bio: editBio,
-        college_plan: editCollegePlan,
-        social_links: editSocials,
-      });
-      setProfile(res.data);
-      refreshUser();
-      setEditOpen(false);
-      toast.success("Perfil atualizado!");
-    } catch (e) {
-      toast.error(e.response?.data?.detail || "Erro ao salvar");
-    } finally {
-      setSaving(false);
-    }
+      const res = await api.put("/profile", { bio: editBio, college_plan: editCollegePlan, social_links: editSocials });
+      setProfile(res.data); refreshUser(); setEditOpen(false); toast.success("Perfil atualizado!");
+    } catch (e) { toast.error(e.response?.data?.detail || "Erro"); }
+    finally { setSaving(false); }
   };
 
   if (loading || !profile) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="w-6 h-6 border-2 border-foreground border-t-transparent animate-spin" />
-      </div>
-    );
+    return <div className="flex items-center justify-center h-64">
+      <div className="w-6 h-6 border-2 border-neon-red border-t-transparent rounded-full animate-spin" />
+    </div>;
   }
 
   const levelInfo = profile.level_info || {};
   const xpPercent = levelInfo.next_level_xp > 0 ? (levelInfo.current_xp / levelInfo.next_level_xp) * 100 : 0;
-  const getRankColor = (rank) => {
-    const c = { "Bronze": "text-bronze", "Prata": "text-silver", "Ouro": "text-gold", "Rubi": "text-ruby", "Platina Lendario": "text-platinum" };
-    return c[rank] || "text-foreground";
-  };
+  const getRankColor = (r) => ({ "Bronze": "text-bronze", "Prata": "text-silver", "Ouro": "text-gold", "Rubi": "text-ruby", "Platina Lendario": "text-platinum" }[r] || "text-neon-red");
 
   return (
-    <div className="space-y-6" data-testid="profile-page">
-      <Toaster position="top-right" />
+    <div className="space-y-5" data-testid="profile-page">
+      <Toaster position="top-center" toastOptions={{ style: { background: 'rgba(15,3,3,0.9)', border: '1px solid rgba(255,26,26,0.2)', color: '#f2f2f2' }}} />
 
       {/* Gamer Card */}
-      <Card className="bg-card border-border overflow-hidden relative" data-testid="profile-card">
+      <div className="glass-card overflow-hidden" data-testid="profile-card">
         {/* Banner */}
-        <div
-          className="h-36 sm:h-48 w-full bg-secondary"
-          style={{
-            backgroundImage: profile.banner
-              ? `url(${profile.banner})`
-              : `url(https://images.unsplash.com/photo-1762258344624-52d8c3b74c66?w=800&q=60)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          data-testid="profile-banner"
-        />
+        <div className="h-28 sm:h-40 w-full relative" data-testid="profile-banner"
+          style={{ background: profile.banner ? `url(${profile.banner}) center/cover` : 'linear-gradient(135deg, #1a0000 0%, #3d0000 40%, #1a0000 100%)' }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        </div>
 
-        <CardContent className="relative pt-0 pb-6 px-6">
-          {/* Avatar */}
-          <div className="flex items-end gap-4 -mt-12">
-            <Avatar className="h-20 w-20 border-4 border-card" data-testid="profile-avatar">
+        <div className="relative px-4 sm:px-6 pb-5 -mt-10">
+          <div className="flex items-end gap-3 sm:gap-4">
+            <Avatar className="h-16 w-16 sm:h-20 sm:w-20 ring-3 ring-neon-red/30 border-2 border-black" data-testid="profile-avatar">
               <AvatarImage src={profile.profile_photo || profile.picture} />
-              <AvatarFallback className="bg-secondary text-2xl font-heading font-black">
+              <AvatarFallback className="bg-neon-red/15 text-neon-red text-xl font-heading font-bold">
                 {(profile.display_name || "U").charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0 pb-1">
-              <div className="flex items-center gap-2">
-                <h2 className="font-heading text-2xl font-black uppercase tracking-tight truncate">
-                  {profile.display_name}
-                </h2>
-                {profile.active_badge && (
-                  <Badge variant="secondary" className="text-xs font-mono">{profile.active_badge}</Badge>
-                )}
-              </div>
-              <p className="text-xs font-mono text-muted-foreground">
-                {profile.school} &middot; {profile.grade} &middot; {profile.city}
-              </p>
+              <h2 className="font-heading text-lg sm:text-xl font-bold tracking-wider text-white truncate">
+                {profile.display_name}
+              </h2>
+              <p className="text-[10px] font-mono text-zinc-500">{profile.school} &middot; {profile.grade} &middot; {profile.city}</p>
             </div>
-            <Button variant="outline" size="sm" onClick={openEdit} data-testid="edit-profile-button"
-              className="border-border font-heading font-bold uppercase text-xs tracking-wider">
-              <Edit className="h-3 w-3 mr-1.5" /> Editar
-            </Button>
+            <button onClick={openEdit} data-testid="edit-profile-button"
+              className="p-2 rounded-lg glass-card border-zinc-800 hover:border-neon-red/30 transition-colors">
+              <Edit className="h-4 w-4 text-zinc-400" />
+            </button>
           </div>
 
-          {/* Bio */}
-          {profile.bio && (
-            <p className="text-sm text-zinc-300 mt-4 max-w-lg">{profile.bio}</p>
-          )}
-          {profile.college_plan && (
-            <p className="text-xs text-muted-foreground mt-1">Pretende cursar: {profile.college_plan}</p>
-          )}
+          {profile.bio && <p className="text-sm text-zinc-300 mt-3">{profile.bio}</p>}
+          {profile.college_plan && <p className="text-xs text-zinc-500 mt-1">Pretende cursar: {profile.college_plan}</p>}
 
-          {/* Social Links */}
-          {profile.social_links && Object.keys(profile.social_links).length > 0 && (
+          {profile.social_links && Object.keys(profile.social_links).filter(k => profile.social_links[k]).length > 0 && (
             <div className="flex gap-2 mt-3 flex-wrap">
               {Object.entries(profile.social_links).map(([key, url]) => {
                 if (!url) return null;
                 return (
                   <a key={key} href={url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-2 py-1 text-xs border border-border text-muted-foreground hover:text-foreground hover:border-foreground/50 transition-colors">
-                    <ExternalLink className="h-3 w-3" /> {key}
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-mono glass-card text-zinc-400 hover:text-neon-red hover:border-neon-red/20 transition-colors">
+                    <ExternalLink className="h-2.5 w-2.5" /> {key}
                   </a>
                 );
               })}
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Nivel" value={levelInfo.level} icon={<Trophy className="h-4 w-4" />} sub={
-          <span className={`text-xs font-heading font-bold uppercase ${getRankColor(levelInfo.rank)}`}>{levelInfo.rank}</span>
-        } />
-        <StatCard label="Level XP" value={profile.level_xp} icon={<Zap className="h-4 w-4" />} sub={
-          <Progress value={xpPercent} className="h-1 bg-secondary mt-1" />
-        } />
-        <StatCard label="Total XP" value={profile.total_xp} icon={<Zap className="h-4 w-4" />} />
-        <StatCard label="Streak" value={profile.streak} icon={<Flame className="h-4 w-4 text-orange-400" />} sub={
-          <span className="text-xs text-muted-foreground">dias</span>
-        } />
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <StatCard label="Nivel" value={levelInfo.level} icon={<Trophy className="h-3.5 w-3.5 text-neon-red" />}
+          sub={<span className={`text-[10px] font-heading font-bold ${getRankColor(levelInfo.rank)}`}>{levelInfo.rank}</span>} />
+        <StatCard label="Level XP" value={profile.level_xp} icon={<Zap className="h-3.5 w-3.5 text-neon-red" />}
+          sub={<div className="xp-bar-track h-1 mt-1"><div className="xp-bar-fill h-full" style={{ width: `${xpPercent}%` }} /></div>} />
+        <StatCard label="Total XP" value={profile.total_xp} icon={<Zap className="h-3.5 w-3.5 text-neon-red" />} />
+        <StatCard label="Streak" value={profile.streak} icon={<Flame className="h-3.5 w-3.5 text-orange-500" />}
+          sub={<span className="text-[10px] text-zinc-600">dias</span>} />
       </div>
 
       {/* Badges */}
-      <Card className="bg-card border-border" data-testid="badges-section">
-        <CardContent className="p-6">
-          <h3 className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em] mb-4">Conquistas</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {badges.map((b) => (
-              <div key={b.badge_id} className={`p-3 border text-center transition-colors ${
-                b.earned ? "border-foreground/30 bg-secondary/50" : "border-border opacity-40"
-              }`}>
-                <Award className={`h-6 w-6 mx-auto mb-2 ${b.earned ? "text-foreground" : "text-zinc-600"}`} strokeWidth={1.5} />
-                <p className="text-xs font-medium">{b.name}</p>
-                <p className="text-[10px] text-muted-foreground">{b.description}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="glass-card p-4 sm:p-5" data-testid="badges-section">
+        <p className="text-xs font-mono text-zinc-600 tracking-widest mb-3">CONQUISTAS</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          {badges.map((b) => (
+            <div key={b.badge_id} className={`p-3 rounded-xl text-center transition-all border ${
+              b.earned ? "glass-strong border-neon-red/20" : "bg-zinc-900/20 border-zinc-900 opacity-40"
+            }`}>
+              <Award className={`h-5 w-5 mx-auto mb-1.5 ${b.earned ? "text-neon-red" : "text-zinc-700"}`} strokeWidth={1.5} />
+              <p className="text-[11px] font-medium">{b.name}</p>
+              <p className="text-[9px] text-zinc-600 mt-0.5">{b.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Subjects */}
-      <Card className="bg-card border-border" data-testid="subjects-section">
-        <CardContent className="p-6">
-          <h3 className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em] mb-4">Materias</h3>
-          <div className="flex flex-wrap gap-2">
-            {(profile.subjects || []).map((s) => (
-              <Badge key={s} variant="secondary" className="font-mono text-xs">{s}</Badge>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="glass-card p-4" data-testid="subjects-section">
+        <p className="text-xs font-mono text-zinc-600 tracking-widest mb-3">MATERIAS</p>
+        <div className="flex flex-wrap gap-2">
+          {(profile.subjects || []).map((s) => (
+            <Badge key={s} className="bg-neon-red/8 text-neon-red/80 border-neon-red/15 font-mono text-xs rounded-lg">{s}</Badge>
+          ))}
+        </div>
+      </div>
 
       {/* Edit Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="bg-card border-border max-w-md max-h-[85vh] overflow-y-auto" aria-describedby="edit-profile-desc" data-testid="edit-profile-dialog">
+        <DialogContent className="glass border-red-500/10 max-w-md mx-4 rounded-2xl max-h-[85vh] overflow-y-auto" aria-describedby="edit-desc" data-testid="edit-profile-dialog">
           <DialogHeader>
-            <DialogTitle className="font-heading text-2xl font-bold uppercase tracking-wider">Editar Perfil</DialogTitle>
-            <p id="edit-profile-desc" className="text-xs text-muted-foreground">Atualize suas informacoes</p>
+            <DialogTitle className="font-heading text-lg font-bold tracking-wider text-neon-red">EDITAR PERFIL</DialogTitle>
+            <p id="edit-desc" className="text-xs text-zinc-600">Atualize suas informacoes</p>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em] mb-1 block">Bio</label>
+              <label className="text-[10px] font-mono text-zinc-600 tracking-widest mb-1 block">BIO</label>
               <Textarea value={editBio} onChange={(e) => setEditBio(e.target.value)}
-                className="bg-secondary/50 border-border font-mono text-sm" rows={3} maxLength={200}
-                data-testid="edit-bio-input" />
+                className="bg-black/50 border-zinc-800 font-mono text-sm rounded-xl" rows={3} maxLength={200} data-testid="edit-bio-input" />
             </div>
             <div>
-              <label className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em] mb-1 block">Pretende Cursar</label>
+              <label className="text-[10px] font-mono text-zinc-600 tracking-widest mb-1 block">PRETENDE CURSAR</label>
               <Input value={editCollegePlan} onChange={(e) => setEditCollegePlan(e.target.value)}
-                className="bg-secondary/50 border-border h-10 font-mono" data-testid="edit-college-input" />
+                className="bg-black/50 border-zinc-800 h-10 font-mono rounded-xl" data-testid="edit-college-input" />
             </div>
-            <Separator />
-            <p className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em]">Redes Sociais</p>
-            {SOCIAL_PLATFORMS.map((p) => (
-              <div key={p.key}>
-                <label className="text-xs text-muted-foreground mb-1 block">{p.label}</label>
-                <Input
-                  value={editSocials[p.key] || ""}
-                  onChange={(e) => setEditSocials({ ...editSocials, [p.key]: e.target.value })}
-                  placeholder={p.placeholder}
-                  className="bg-secondary/50 border-border h-9 font-mono text-xs"
-                  data-testid={`social-${p.key}-input`}
-                />
-              </div>
-            ))}
-            <Button onClick={handleSave} disabled={saving}
-              className="w-full h-12 bg-foreground text-background font-heading font-bold uppercase tracking-wider"
-              data-testid="save-profile-button">
-              {saving ? "Salvando..." : "Salvar"}
-            </Button>
+            <div className="border-t border-zinc-800 pt-3">
+              <p className="text-[10px] font-mono text-zinc-600 tracking-widest mb-2">REDES SOCIAIS</p>
+              {SOCIAL_PLATFORMS.map((p) => (
+                <div key={p.key} className="mb-2">
+                  <label className="text-[10px] text-zinc-600 mb-0.5 block">{p.label}</label>
+                  <Input value={editSocials[p.key] || ""} onChange={(e) => setEditSocials({ ...editSocials, [p.key]: e.target.value })}
+                    placeholder={p.placeholder} className="bg-black/50 border-zinc-800 h-9 font-mono text-xs rounded-xl" data-testid={`social-${p.key}-input`} />
+                </div>
+              ))}
+            </div>
+            <button onClick={handleSave} disabled={saving} data-testid="save-profile-button"
+              className="w-full h-11 rounded-xl bg-neon-red text-white font-heading font-bold text-sm tracking-wider neon-glow disabled:opacity-30 hover:bg-neon-red/90 transition-all">
+              {saving ? "SALVANDO..." : "SALVAR"}
+            </button>
           </div>
         </DialogContent>
       </Dialog>
@@ -255,15 +193,13 @@ export default function ProfilePage() {
 
 function StatCard({ label, value, icon, sub }) {
   return (
-    <Card className="bg-card border-border">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-xs font-mono text-muted-foreground uppercase tracking-[0.2em]">{label}</span>
-          {icon}
-        </div>
-        <p className="font-heading text-3xl font-black">{value}</p>
-        {sub}
-      </CardContent>
-    </Card>
+    <div className="glass-card p-4">
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[9px] font-mono text-zinc-600 tracking-widest">{label}</span>
+        {icon}
+      </div>
+      <p className="font-stat text-2xl sm:text-3xl font-bold text-white">{value}</p>
+      {sub}
+    </div>
   );
 }
