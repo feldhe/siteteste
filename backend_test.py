@@ -294,8 +294,9 @@ class ShadowScholarAPITester:
             description="Get user's subjects list"
         )
         
-        # Add new subject
-        new_subject = {"name": "Física"}
+        # Add new subject with unique name
+        timestamp = str(int(datetime.now().timestamp()))
+        new_subject = {"name": f"Física{timestamp[-4:]}"}
         self.run_test(
             "Add Subject", "POST", "/subjects", 200, new_subject,
             description="Add new subject to user's list"
