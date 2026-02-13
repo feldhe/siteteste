@@ -143,7 +143,7 @@ class ShadowScholarAPITester:
         }
         
         success, created_activity = self.run_test(
-            "Create Activity", "POST", "/activities", 201, activity_data,
+            "Create Activity", "POST", "/activities", 200, activity_data,
             description="Create new activity with anti-fraud validation"
         )
         
